@@ -1,35 +1,61 @@
+import java.util.Scanner;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
         // Press Opt+Enter with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
-        System.out.print("Hello and welcome!");
+        System.out.println("Hello and welcome!");
 
-        // Press Ctrl+R or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        Player player = new Player("Steve", 50, 10, 50);
+        System.out.println(player.bark());
+        System.out.println(player.unitInfo());
 
-            // Press Ctrl+D to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Cmd+F8.
-            System.out.println("i = " + i);
+        Enemy enemy = new Enemy("UglyGoblin", 30,15,30);
+        System.out.println(enemy.bark());
+        System.out.println(enemy.unitInfo());
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = "";
+
+        while (!userInput.equals("quit") && player.getCurrentHitPoints() > 0 && enemy.getCurrentHitPoints() > 0) {
+            System.out.print("Enter a command ('attack' or 'neutral') or 'quit':");
+            userInput = scanner.nextLine();
+
+            if (userInput.equals("attack")) {
+                player.setCurrentTurnChoice(Unit.TurnChoice.ATTACK);
+            } else if (userInput.equals("neutral")) {
+                player.setCurrentTurnChoice(Unit.TurnChoice.NEUTRAL);
+            } else {
+                System.out.println("Invalid command, please try again.");
+            }
+
+            double randomDouble = Math.random();
+            // System.out.println(String.format("Printing random number %s", randomDouble));
+
+            if (randomDouble > 0.5) {
+                enemy.setCurrentTurnChoice(Unit.TurnChoice.ATTACK);
+            } else {
+                enemy.setCurrentTurnChoice(Unit.TurnChoice.NEUTRAL);
+            }
+
+            TurnResolver.resolveTurn(player,enemy);
+            System.out.println(player.unitInfo());
+            System.out.println(enemy.unitInfo());
         }
 
-        SampleClass sampleClass = new SampleClass();
-        System.out.println(sampleClass.text);
+        if (player.getCurrentHitPoints() <= 0) {
+            System.out.println(player.deathMessage());
+        }
 
-        Player player = new Player("Steve", 100, 10, 100);
-        player.bark();
-        System.out.println(player.unitInfo());
+        if (enemy.getCurrentHitPoints() <= 0) {
+            System.out.println(enemy.deathMessage());
+        }
 
-        Enemy enemy = new Enemy("UglyGoblin", 80,15,80);
-        enemy.bark();
-        System.out.println(enemy.unitInfo());
+        System.out.println("Exiting...");
+        scanner.close();
 
-        player.setCurrentState(Unit.State.ATTACK);
-        enemy.setCurrentState(Unit.State.ATTACK);
-        TurnResolver.resolveTurn(player,enemy);
-        System.out.println(player.unitInfo());
-        System.out.println(enemy.unitInfo());
 
         // player attacks enemy
         // player.attack(enemy);

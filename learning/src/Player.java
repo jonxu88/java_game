@@ -1,12 +1,17 @@
 class Player extends Unit {
     public Player(String name,
                 Integer currentHitPoints,
-                Integer attackDamage,
+                Integer currentAttackDamage,
                 Integer maxHitPoints) {
-        super(name, currentHitPoints, attackDamage, maxHitPoints);
+        super(name, currentHitPoints, currentAttackDamage, maxHitPoints);
     }
     @Override
-    public void bark() {
-        System.out.println("I am the player!");
+    public String bark() {
+        return "I am the player!";
+    }
+
+    @Override
+    public String deathMessage() {
+        return String.format("The player, whose name is %s, has died...", this.getName());
     }
 }

@@ -2,32 +2,34 @@ abstract class Unit {
     private String name;
     private Integer maxHitPoints;
     private Integer currentHitPoints;
-    private Integer attackDamage;
+    private Integer currentAttackDamage;
 
     // what is the current move?
-    public enum State {
+    public enum TurnChoice {
         ATTACK,
         NEUTRAL
     }
-    private State currentState = State.NEUTRAL;
-    public void setCurrentState(State currentState) {
-        this.currentState = currentState;
+    private TurnChoice currentTurnChoice = TurnChoice.NEUTRAL;
+    public void setCurrentTurnChoice(TurnChoice currentTurnChoice) {
+        this.currentTurnChoice = currentTurnChoice;
+        String turnInfo = String.format("%s has chosen %s", this.name, this.currentTurnChoice);
+        System.out.println(turnInfo);
     }
 
     // constructor
     public Unit(String name,
                 Integer currentHitPoints,
-                Integer attackDamage,
+                Integer currentAttackDamage,
                 Integer maxHitPoints) {
         this.name = name;
         this.maxHitPoints = maxHitPoints;
         this.currentHitPoints = currentHitPoints;
-        this.attackDamage = attackDamage;
+        this.currentAttackDamage = currentAttackDamage;
     }
 
     // setter
-    public void setAttackDamage(Integer attackDamage) {
-        this.attackDamage = attackDamage;
+    public void setCurrentAttackDamage(Integer currentAttackDamage) {
+        this.currentAttackDamage = currentAttackDamage;
     }
 
     // getters
@@ -38,24 +40,25 @@ abstract class Unit {
     public Integer getCurrentHitPoints() {
         return currentHitPoints;
     }
-    public Integer getAttackDamage() {
-        return attackDamage;
+    public Integer getCurrentAttackDamage() {
+        return currentAttackDamage;
     }
-    public State getCurrentState() { return currentState; }
+    public TurnChoice getCurrentTurnChoice() { return currentTurnChoice; }
 
 
-    public abstract void bark();
+    public abstract String bark();
+    public abstract String deathMessage();
 
     public String unitInfo() {
-        String unitInfo = String.format("Name: %s, MaxHP: %d, CurrentHP: %d, AttackDamage: %d",
-                name, maxHitPoints, currentHitPoints, attackDamage);
+        String unitInfo = String.format("Name: %s, MaxHP: %d, CurrentHP: %d, CurrentAttackDamage: %d",
+                name, maxHitPoints, currentHitPoints, currentAttackDamage);
         return unitInfo;
     }
 
-    public void disableAttack() {setAttackDamage(0);}
+    public void disableAttack() {setCurrentAttackDamage(0);}
 
     public void attack(Unit unit) {
-        unit.currentHitPoints -= this.attackDamage;
+        unit.currentHitPoints -= this.currentAttackDamage;
     }
 
     // add defend mode which halves the damage

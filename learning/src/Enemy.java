@@ -1,12 +1,17 @@
 class Enemy extends Unit {
     public Enemy(String name,
                  Integer currentHitPoints,
-                 Integer attackDamage,
+                 Integer currentAttackDamage,
                  Integer maxHitPoints) {
-        super(name, currentHitPoints, attackDamage, maxHitPoints);
+        super(name, currentHitPoints, currentAttackDamage, maxHitPoints);
     }
     @Override
-    public void bark() {
-        System.out.println("I am the enemy!");
+    public String bark() {
+        return "I am the enemy!";
+    }
+
+    @Override
+    public String deathMessage() {
+        return String.format("The enemy, whose name is %s, has died...", this.getName());
     }
 }
