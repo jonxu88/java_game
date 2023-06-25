@@ -1,3 +1,5 @@
+// import org.javatuples.Tuple;
+
 public class TurnResolver {
     private Unit unitOne;
     private Unit unitTwo;
@@ -25,34 +27,28 @@ public class TurnResolver {
         this.unitTwo = unitTwo;
     }
 
+    // TODO: Maybe use tuples?
     // resolve turn
     public static void resolveTurn(Unit unitOne, Unit unitTwo) {
-        switch (unitOne.getCurrentTurnChoice()) {
-            case NEUTRAL -> {
-                switch (unitTwo.getCurrentTurnChoice()) {
-                    case NEUTRAL -> System.out.println("Nothing happened!");
-                    case ATTACK -> {
-                        unitTwo.attack(unitOne);
-                        String outString = String.format("%s attacks %s", unitTwo.getName(), unitOne.getName());
-                        System.out.println(outString);
-                    }
-                }
+        String combinedTurnChoice = unitOne.getCurrentTurnChoice() + "_" + unitTwo.getCurrentTurnChoice();
+        switch (combinedTurnChoice) {
+            case "NEUTRAL_NEUTRAL" -> System.out.println("Nothing happened!");
+            case "NEUTRAL_ATTACK" -> {
+                unitTwo.attack(unitOne);
+                String outString = String.format("%s attacks %s", unitTwo.getName(), unitOne.getName());
+                System.out.println(outString);
             }
-            case ATTACK -> {
-                switch (unitTwo.getCurrentTurnChoice()) {
-                    case NEUTRAL -> {
-                        unitOne.attack(unitTwo);
-                        String outString = String.format("%s attacks %s", unitOne.getName(), unitTwo.getName());
-                        System.out.println(outString);
-                    }
-                    case ATTACK -> {
-                        unitOne.attack(unitTwo);
-                        unitTwo.attack(unitOne);
-                        String outString_mutual = String.format("%s and %s attack each other!",
-                                unitOne.getName(), unitTwo.getName());
-                        System.out.println(outString_mutual);
-                    }
-                }
+            case "ATTACK_NEUTRAL" -> {
+                unitOne.attack(unitTwo);
+                String outString = String.format("%s attacks %s", unitOne.getName(), unitTwo.getName());
+                System.out.println(outString);
+            }
+            case "ATTACK_ATTACK" -> {
+                    unitOne.attack(unitTwo);
+                    unitTwo.attack(unitOne);
+                    String outString_mutual = String.format("%s and %s attack each other!",
+                            unitOne.getName(), unitTwo.getName());
+                    System.out.println(outString_mutual);
             }
         }
     }
