@@ -39,9 +39,7 @@ public class TurnResolver {
                 System.out.println(outString);
             }
             case "ATTACK_NEUTRAL" -> {
-                unitOne.attack(unitTwo);
-                String outString = String.format("%s attacks %s", unitOne.getName(), unitTwo.getName());
-                System.out.println(outString);
+                resolveTurn(unitTwo, unitOne);
             }
             case "ATTACK_ATTACK" -> {
                     unitOne.attack(unitTwo);
