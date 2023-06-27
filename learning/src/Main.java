@@ -8,11 +8,11 @@ public class Main {
         // IntelliJ IDEA suggests fixing it.
         System.out.println("Hello and welcome!");
 
-        Player player = new Player("Steve", 50, 10, 50);
+        Player player = new Player("Steve", 10, 50);
         System.out.println(player.bark());
         System.out.println(player.unitInfo());
 
-        Enemy enemy = new Enemy("UglyGoblin", 30,15,30);
+        Enemy enemy = new Enemy("UglyGoblin", 15,30);
         System.out.println(enemy.bark());
         System.out.println(enemy.unitInfo());
 
