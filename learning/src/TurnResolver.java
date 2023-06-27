@@ -32,16 +32,28 @@ public class TurnResolver {
     public static void resolveTurn(Unit unitOne, Unit unitTwo) {
         String combinedTurnChoice = unitOne.getCurrentTurnChoice() + "_" + unitTwo.getCurrentTurnChoice();
         switch (combinedTurnChoice) {
-            case "CHARGE_CHARGE" -> System.out.println("Nothing happened!");
+            case "CHARGE_CHARGE" -> {
+                unitOne.setIsCharging(true);
+                unitOne.setCurrentAttackDamage(unitOne.getCurrentAttackDamage() * unitOne.CHARGE_FACTOR);
+                unitTwo.setIsCharging(true);
+                unitTwo.setCurrentAttackDamage(unitTwo.getCurrentAttackDamage() * unitTwo.CHARGE_FACTOR);
+                System.out.println("Both players are charging...");
+            }
             case "CHARGE_ATTACK" -> {
                 unitTwo.attack(unitOne);
-                String outString = String.format("%s attacks %s", unitTwo.getName(), unitOne.getName());
+                unitOne.setIsCharging(false);
+                unitOne.setCurrentAttackDamage(unitOne.initialAttackDamage);
+                String outString = String.format("%s attacks, %s is charging so the charge is broken!", unitTwo.getName(), unitOne.getName());
                 System.out.println(outString);
             }
             case "ATTACK_CHARGE" -> resolveTurn(unitTwo, unitOne);
             case "ATTACK_ATTACK" -> {
                     unitOne.attack(unitTwo);
                     unitTwo.attack(unitOne);
+                    unitOne.setIsCharging(false);
+                    unitOne.setCurrentAttackDamage(unitOne.initialAttackDamage);
+                    unitTwo.setIsCharging(false);
+                    unitTwo.setCurrentAttackDamage(unitTwo.initialAttackDamage);
                     String outString_mutual = String.format("%s and %s attack each other!",
                             unitOne.getName(), unitTwo.getName());
                     System.out.println(outString_mutual);

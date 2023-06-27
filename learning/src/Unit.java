@@ -1,11 +1,12 @@
 abstract class Unit {
-    private final String name;
-    private final Integer maxHitPoints;
-    private final Integer initialAttackDamage;
+    public final String name;
+    public final Integer maxHitPoints;
+    public final Integer initialAttackDamage;
     private Integer currentHitPoints;
     private Integer currentAttackDamage;
+    private Boolean isCharging = false;
 
-    private static final double CHARGE_FACTOR = 2.0;
+    public static final int CHARGE_FACTOR = 2;
 
 
     // what is the current move?
@@ -28,6 +29,7 @@ abstract class Unit {
     }
 
     // setters
+    public void setIsCharging(Boolean isCharging) {this.isCharging = isCharging; }
     public void setCurrentAttackDamage(Integer currentAttackDamage) {
         this.currentAttackDamage = currentAttackDamage;
     }
