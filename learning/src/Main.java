@@ -20,13 +20,13 @@ public class Main {
         String userInput = "";
 
         while (!userInput.equals("quit") && player.getCurrentHitPoints() > 0 && enemy.getCurrentHitPoints() > 0) {
-            System.out.print("Enter a command ('attack' or 'neutral') or 'quit':");
+            System.out.print("Enter a command ('attack' or 'charge') or 'quit':");
             userInput = scanner.nextLine();
 
             if (userInput.equals("attack")) {
                 player.setCurrentTurnChoice(Unit.TurnChoice.ATTACK);
-            } else if (userInput.equals("neutral")) {
-                player.setCurrentTurnChoice(Unit.TurnChoice.NEUTRAL);
+            } else if (userInput.equals("charge")) {
+                player.setCurrentTurnChoice(Unit.TurnChoice.CHARGE);
             } else {
                 System.out.println("Invalid command, please try again.");
             }
@@ -37,7 +37,7 @@ public class Main {
             if (randomDouble > 0.5) {
                 enemy.setCurrentTurnChoice(Unit.TurnChoice.ATTACK);
             } else {
-                enemy.setCurrentTurnChoice(Unit.TurnChoice.NEUTRAL);
+                enemy.setCurrentTurnChoice(Unit.TurnChoice.CHARGE);
             }
 
             TurnResolver.resolveTurn(player,enemy);

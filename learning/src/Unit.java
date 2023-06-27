@@ -7,9 +7,9 @@ abstract class Unit {
     // what is the current move?
     public enum TurnChoice {
         ATTACK,
-        NEUTRAL
+        CHARGE
     }
-    private TurnChoice currentTurnChoice = TurnChoice.NEUTRAL;
+    private TurnChoice currentTurnChoice;
     public void setCurrentTurnChoice(TurnChoice currentTurnChoice) {
         this.currentTurnChoice = currentTurnChoice;
         String turnInfo = String.format("%s has chosen %s", this.name, this.currentTurnChoice);
@@ -61,8 +61,4 @@ abstract class Unit {
         unit.currentHitPoints -= this.currentAttackDamage;
     }
 
-    // add defend mode which halves the damage
-    // two possible actions: attack and defend (defend means damage received is 0)
-    // add enemy actions: just do a random action for now
-    // future: charge attack (2x damage, but charge is gone if attacked!)
 }

@@ -32,15 +32,13 @@ public class TurnResolver {
     public static void resolveTurn(Unit unitOne, Unit unitTwo) {
         String combinedTurnChoice = unitOne.getCurrentTurnChoice() + "_" + unitTwo.getCurrentTurnChoice();
         switch (combinedTurnChoice) {
-            case "NEUTRAL_NEUTRAL" -> System.out.println("Nothing happened!");
-            case "NEUTRAL_ATTACK" -> {
+            case "CHARGE_CHARGE" -> System.out.println("Nothing happened!");
+            case "CHARGE_ATTACK" -> {
                 unitTwo.attack(unitOne);
                 String outString = String.format("%s attacks %s", unitTwo.getName(), unitOne.getName());
                 System.out.println(outString);
             }
-            case "ATTACK_NEUTRAL" -> {
-                resolveTurn(unitTwo, unitOne);
-            }
+            case "ATTACK_CHARGE" -> resolveTurn(unitTwo, unitOne);
             case "ATTACK_ATTACK" -> {
                     unitOne.attack(unitTwo);
                     unitTwo.attack(unitOne);
