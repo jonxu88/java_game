@@ -5,14 +5,17 @@ abstract class Unit {
     private Integer currentHitPoints;
     private Integer currentAttackDamage;
     private Boolean isCharging = false;
+    private Boolean isDefending = false;
 
     public static final int CHARGE_FACTOR = 2;
+    public static final double DEFENSE_FACTOR = 0.5;
 
 
     // what is the current move?
     public enum TurnChoice {
         ATTACK,
-        CHARGE
+        CHARGE,
+        DEFEND
     }
     private TurnChoice currentTurnChoice;
 
@@ -30,6 +33,7 @@ abstract class Unit {
 
     // setters
     public void setIsCharging(Boolean isCharging) {this.isCharging = isCharging; }
+    public void setIsDefending(Boolean isDefending) {this.isDefending = isDefending; }
     public void setCurrentAttackDamage(Integer currentAttackDamage) {
         this.currentAttackDamage = currentAttackDamage;
     }
@@ -65,7 +69,17 @@ abstract class Unit {
     public void disableAttack() {setCurrentAttackDamage(0);}
 
     public void attack(Unit unit) {
-        unit.currentHitPoints -= this.currentAttackDamage;
+        if (unit.isDefending == false) {
+            unit.currentHitPoints -= this.currentAttackDamage;
+        } else {
+            unit.currentHitPoints -= (int) Math.round(unit.DEFENSE_FACTOR * this.currentAttackDamage);
+        }
+
+        // remove charge if attacking
+        if (this.isCharging = true) {
+            this.setIsCharging(false);
+            this.setCurrentAttackDamage(this.initialAttackDamage);
+        }
     }
 
 }
