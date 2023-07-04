@@ -1,35 +1,46 @@
 abstract class Unit {
-    private String name;
-    private Integer maxHitPoints;
+    public final String name;
+    public final Integer maxHitPoints;
+    public final Integer initialAttackDamage;
     private Integer currentHitPoints;
     private Integer currentAttackDamage;
+    private Boolean isCharging = false;
+    private Boolean isDefending = false;
+
+    public static final int CHARGE_FACTOR = 2;
+    public static final double DEFENSE_FACTOR = 0.5;
+
 
     // what is the current move?
     public enum TurnChoice {
         ATTACK,
-        NEUTRAL
+        CHARGE,
+        DEFEND
     }
-    private TurnChoice currentTurnChoice = TurnChoice.NEUTRAL;
+    private TurnChoice currentTurnChoice;
+
+
+    // constructor
+    public Unit(String name,
+                Integer initialAttackDamage,
+                Integer maxHitPoints) {
+        this.name = name;
+        this.initialAttackDamage = initialAttackDamage;
+        this.maxHitPoints = maxHitPoints;
+        this.currentHitPoints = maxHitPoints;
+        this.currentAttackDamage = initialAttackDamage;
+    }
+
+    // setters
+    public void setIsCharging(Boolean isCharging) {this.isCharging = isCharging; }
+    public void setIsDefending(Boolean isDefending) {this.isDefending = isDefending; }
+    public void setCurrentAttackDamage(Integer currentAttackDamage) {
+        this.currentAttackDamage = currentAttackDamage;
+    }
     public void setCurrentTurnChoice(TurnChoice currentTurnChoice) {
         this.currentTurnChoice = currentTurnChoice;
         String turnInfo = String.format("%s has chosen %s", this.name, this.currentTurnChoice);
         System.out.println(turnInfo);
-    }
-
-    // constructor
-    public Unit(String name,
-                Integer currentHitPoints,
-                Integer currentAttackDamage,
-                Integer maxHitPoints) {
-        this.name = name;
-        this.maxHitPoints = maxHitPoints;
-        this.currentHitPoints = currentHitPoints;
-        this.currentAttackDamage = currentAttackDamage;
-    }
-
-    // setter
-    public void setCurrentAttackDamage(Integer currentAttackDamage) {
-        this.currentAttackDamage = currentAttackDamage;
     }
 
     // getters
@@ -58,11 +69,17 @@ abstract class Unit {
     public void disableAttack() {setCurrentAttackDamage(0);}
 
     public void attack(Unit unit) {
-        unit.currentHitPoints -= this.currentAttackDamage;
+        if (unit.isDefending == false) {
+            unit.currentHitPoints -= this.currentAttackDamage;
+        } else {
+            unit.currentHitPoints -= (int) Math.round(unit.DEFENSE_FACTOR * this.currentAttackDamage);
+        }
+
+        // remove charge if attacking
+        if (this.isCharging = true) {
+            this.setIsCharging(false);
+            this.setCurrentAttackDamage(this.initialAttackDamage);
+        }
     }
 
-    // add defend mode which halves the damage
-    // two possible actions: attack and defend (defend means damage received is 0)
-    // add enemy actions: just do a random action for now
-    // future: charge attack (2x damage, but charge is gone if attacked!)
 }

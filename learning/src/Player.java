@@ -1,9 +1,9 @@
 class Player extends Unit {
     public Player(String name,
-                Integer currentHitPoints,
-                Integer currentAttackDamage,
-                Integer maxHitPoints) {
-        super(name, currentHitPoints, currentAttackDamage, maxHitPoints);
+                  Integer initialAttackDamage,
+                  Integer maxHitPoints)
+    {
+        super(name, initialAttackDamage, maxHitPoints);
     }
     @Override
     public String bark() {
